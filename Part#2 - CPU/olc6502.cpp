@@ -53,7 +53,7 @@
 
 	Files: olc6502.h, olc6502.cpp
 
-	Relevant Video:
+	Relevant Video: https://www.youtube.com/watch?v=8XmxKPJDGU0
 
 	Links
 	~~~~~
