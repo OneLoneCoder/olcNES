@@ -68,7 +68,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019
+	David Barr, aka javidx9, Â©OneLoneCoder 2019
 */
 
 #include "olc6502.h"
@@ -1191,6 +1191,10 @@ uint8_t olc6502::LSR()
 
 uint8_t olc6502::NOP()
 {
+	// Sadly not all NOPs are equal, Ive added a few here
+	// based on https://wiki.nesdev.com/w/index.php/CPU_unofficial_opcodes
+	// and will add more based on game compatibility, and ultimately
+	// I'd like to cover all illegal opcodes too
 	switch (opcode) {
 	case 0x1C:
 	case 0x3C:
