@@ -44,9 +44,9 @@
 	why I am the way I am today.
 
 	In February 2019, I decided to undertake a selfish personal project and
-	build a NES emulator. Ive always wanted to, and as such I've avoided
+	build a NES emulator. I've always wanted to, and as such I've avoided
 	looking at source code for such things. This made making this a real 
-	personal challenge. I know its been done countless times, and very likely
+	personal challenge. I know it's been done countless times, and very likely
 	in far more clever and accurate ways than mine, but I'm proud of this.
 
 	Datasheet: http://archive.6502.org/datasheets/rockwell_r650x_r651x.pdf
@@ -68,7 +68,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019
+	David Barr, aka javidx9, Â©OneLoneCoder 2019
 */
 
 #pragma once
@@ -111,7 +111,7 @@ public:
 
 public:
 	// CPU Core registers, exposed as public here for ease of access from external
-	// examinors. This is all the 6502 has.
+	// examiners. This is all the 6502 has.
 	uint8_t  a      = 0x00;		// Accumulator Register
 	uint8_t  x      = 0x00;		// X Register
 	uint8_t  y      = 0x00;		// Y Register
@@ -138,7 +138,7 @@ public:
 	// in memory, for the specified address range
 	std::map<uint16_t, std::string> disassemble(uint16_t nStart, uint16_t nStop);
 
-	// The status register stores 8 flags. Ive enumerated these here for ease
+	// The status register stores 8 flags. I've enumerated these here for ease
 	// of access. You can access the status register directly since its public.
 	// The bits have different interpretations depending upon the context and 
 	// instruction being executed.
@@ -159,7 +159,7 @@ private:
 	uint8_t GetFlag(FLAGS6502 f);
 	void    SetFlag(FLAGS6502 f, bool v);
 	
-	// Assisstive variables to facilitate emulation
+	// Assistive variables to facilitate emulation
 	uint8_t  fetched     = 0x00;   // Represents the working input value to the ALU
 	uint16_t temp        = 0x0000; // A convenience variable used everywhere
 	uint16_t addr_abs    = 0x0000; // All used memory addresses end up in here
@@ -230,7 +230,7 @@ private:
 	// have not modelled "unofficial" opcodes. As each opcode is 
 	// defined by 1 byte, there are potentially 256 possible codes.
 	// Codes are not used in a "switch case" style on a processor,
-	// instead they are repsonisble for switching individual parts of
+	// instead they are responsible for switching individual parts of
 	// CPU circuits on and off. The opcodes listed here are official, 
 	// meaning that the functionality of the chip when provided with
 	// these codes is as the developers intended it to be. Unofficial
