@@ -68,7 +68,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2019
 */
 
 #pragma once
@@ -111,7 +111,7 @@ public:
 
 public:
 	// CPU Core registers, exposed as public here for ease of access from external
-	// examinors. This is all the 6502 has.
+	// examiners. This is all the 6502 has.
 	uint8_t  a      = 0x00;		// Accumulator Register
 	uint8_t  x      = 0x00;		// X Register
 	uint8_t  y      = 0x00;		// Y Register
@@ -159,7 +159,7 @@ private:
 	uint8_t GetFlag(FLAGS6502 f);
 	void    SetFlag(FLAGS6502 f, bool v);
 	
-	// Assisstive variables to facilitate emulation
+	// Assistive variables to facilitate emulation
 	uint8_t  fetched     = 0x00;   // Represents the working input value to the ALU
 	uint16_t temp        = 0x0000; // A convenience variable used everywhere
 	uint16_t addr_abs    = 0x0000; // All used memory addresses end up in here
@@ -230,7 +230,7 @@ private:
 	// have not modelled "unofficial" opcodes. As each opcode is 
 	// defined by 1 byte, there are potentially 256 possible codes.
 	// Codes are not used in a "switch case" style on a processor,
-	// instead they are repsonisble for switching individual parts of
+	// instead they are responsible for switching individual parts of
 	// CPU circuits on and off. The opcodes listed here are official, 
 	// meaning that the functionality of the chip when provided with
 	// these codes is as the developers intended it to be. Unofficial

@@ -189,7 +189,7 @@ void olc6502::reset()
 // current status register is stored on the stack. When the routine
 // that services the interrupt has finished, the status register
 // and program counter can be restored to how they where before it 
-// occurred. This is impemented by the "RTI" instruction. Once the IRQ
+// occurred. This is implemented by the "RTI" instruction. Once the IRQ
 // has happened, in a similar way to a reset, a programmable address
 // is read form hard coded location 0xFFFE, which is subsequently
 // set to the program counter.
@@ -281,7 +281,7 @@ void olc6502::clock()
 		// Get Starting number of cycles
 		cycles = lookup[opcode].cycles;
 
-		// Perform fetch of intermmediate data using the
+		// Perform fetch of intermediate data using the
 		// required addressing mode
 		uint8_t additional_cycle1 = (this->*lookup[opcode].addrmode)();
 
@@ -361,7 +361,7 @@ void olc6502::SetFlag(FLAGS6502 f, bool v)
 
 // Address Mode: Implied
 // There is no additional data required for this instruction. The instruction
-// does something very simple like like sets a status bit. However, we will
+// does something very simple like sets a status bit. However, we will
 // target the accumulator, for instructions like PHA
 uint8_t olc6502::IMP()
 {
@@ -496,7 +496,7 @@ uint8_t olc6502::ABY()
 // instruction is unusual in that it has a bug in the hardware! To emulate its
 // function accurately, we also need to emulate this bug. If the low byte of the
 // supplied address is 0xFF, then to read the high byte of the actual address
-// we need to cross a page boundary. This doesnt actually work on the chip as 
+// we need to cross a page boundary. This doesn't actually work on the chip as 
 // designed, instead it wraps back around in the same page, yielding an 
 // invalid actual address
 uint8_t olc6502::IND()
@@ -569,7 +569,7 @@ uint8_t olc6502::IZY()
 // "INX" increments the X register. There is no additional data
 // required. For all other addressing modes, the data resides at 
 // the location held within addr_abs, so it is read from there. 
-// Immediate adress mode exploits this slightly, as that has
+// Immediate address mode exploits this slightly, as that has
 // set addr_abs = pc + 1, so it fetches the data from the
 // next byte for example "LDA $FF" just loads the accumulator with
 // 256, i.e. no far reaching memory fetch is required. "fetched"
@@ -623,7 +623,7 @@ uint8_t olc6502::fetch()
 //  10010101 =  149  or  -107     the context changes the value, not the hardware!
 //
 // In principle under the -128 to 127 range:
-// 10000000 = -128, 11111111 = -1, 00000000 = 0, 00000000 = +1, 01111111 = +127
+// 10000000 = -128, 11111111 = -1, 00000000 = 0, 00000001 = +1, 01111111 = +127
 // therefore negative numbers have the most significant set, positive numbers do not
 //
 // To assist us, the 6502 can set the overflow flag, if the result of the addition has
@@ -636,7 +636,8 @@ uint8_t olc6502::fetch()
 //
 // Here we have not gone out of range. The resulting significant bit has not changed.
 // So let's make a truth table to understand when overflow has occurred. Here I take
-// the MSB of each component, where R is RESULT.
+// the MSB (Most Significant Bit) of each component, where R is RESULT.
+// Note '^' is a bitwise XOR (eXclusive OR))
 //
 // A  M  R | V | A^R | A^M |~(A^M) | 
 // 0  0  0 | 0 |  0  |  0  |   1   |
@@ -654,7 +655,7 @@ uint8_t olc6502::fetch()
 //       Negative Number + Negative Number = Positive Result -> Overflow
 //       Positive Number + Negative Number = Either Result -> Cannot Overflow
 //       Positive Number + Positive Number = Positive Result -> OK! No Overflow
-//       Negative Number + Negative Number = Negative Result -> OK! NO Overflow
+//       Negative Number + Negative Number = Negative Result -> OK! No Overflow
 
 uint8_t olc6502::ADC()
 {
@@ -1506,7 +1507,7 @@ std::map<uint16_t, std::string> olc6502::disassemble(uint16_t nStart, uint16_t n
 		uint8_t opcode = bus->read(addr, true); addr++;
 		sInst += lookup[opcode].name + " ";
 
-		// Get oprands from desired locations, and form the
+		// Get operands from desired locations, and form the
 		// instruction based upon its addressing mode. These
 		// routines mimmick the actual fetch routine of the
 		// 6502 in order to get accurate data as part of the
