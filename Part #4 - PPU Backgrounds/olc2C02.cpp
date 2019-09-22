@@ -51,7 +51,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019
+	David Barr, aka javidx9, Â©OneLoneCoder 2019
 */
 
 #include "olc2C02.h"
@@ -206,7 +206,8 @@ olc::Sprite& olc2C02::GetPatternTable(uint8_t i, uint8_t palette)
 				{
 					// We can get the index value by simply adding the bits together
 					// but we're only interested in the lsb of the row words because...
-					uint8_t pixel = (tile_lsb & 0x01) + (tile_msb & 0x01);
+					// uint8_t pixel = (tile_lsb & 0x01) + (tile_msb & 0x01);
+					uint8_t pixel = (tile_lsb & 0x01) + ((tile_msb & 0x01) << 1);
 
 					// ...we will shift the row words 1 bit right for each column of
 					// the character.
@@ -524,10 +525,19 @@ void olc2C02::ppuWrite(uint16_t addr, uint8_t data)
 	else if (addr >= 0x3F00 && addr <= 0x3FFF)
 	{
 		addr &= 0x001F;
-		if (addr == 0x0010) addr = 0x0000;
-		if (addr == 0x0014) addr = 0x0004;
-		if (addr == 0x0018) addr = 0x0008;
-		if (addr == 0x001C) addr = 0x000C;
+		// if (addr == 0x0010) addr = 0x0000;
+		// if (addr == 0x0014) addr = 0x0004;
+		// if (addr == 0x0018) addr = 0x0008;
+		// if (addr == 0x001C) addr = 0x000C;
+		if ((addr == 0x0004) ||
+		    (addr == 0x0008) ||
+		    (addr == 0x000C) ||
+		    (addr == 0x0010) ||
+		    (addr == 0x0014) ||
+		    (addr == 0x0018) ||
+		    (addr == 0x001C)
+		   ) addr = 0x0000;
+		
 		tblPalette[addr] = data;
 	}
 }
