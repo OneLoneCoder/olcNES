@@ -1577,7 +1577,7 @@ std::map<uint16_t, std::string> olc6502::disassemble(uint16_t nStart, uint16_t n
 		else if (lookup[opcode].addrmode == &olc6502::REL)
 		{
 			value = bus->read(addr, true); addr++;
-			sInst += "$" + hex(value, 2) + " [$" + hex(addr + value, 4) + "] {REL}";
+			sInst += "$" + hex(value, 2) + " [$" + hex((value & 0x80 ? addr - ((value ^ 0xFFFF) + 1) : addr + value), 4) + "] {REL}";
 		}
 
 		// Add the formed string to a std::map, using the instruction's
