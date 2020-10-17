@@ -68,7 +68,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019
+	David Barr, aka javidx9, Â©OneLoneCoder 2019
 */
 
 #pragma once
@@ -183,7 +183,7 @@ private:
 	// different instructions. Each of these are stored in a table in numerical
 	// order so they can be looked up easily, with no decoding required.
 	// Each table entry holds:
-	//	Pneumonic : A textual representation of the instruction (used for disassembly)
+	//	Mnemonic : A textual representation of the instruction (used for disassembly)
 	//	Opcode Function: A function pointer to the implementation of the opcode
 	//	Opcode Address Mode : A function pointer to the implementation of the 
     //						  addressing mechanism used by the instruction
