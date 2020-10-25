@@ -1237,7 +1237,7 @@ uint8_t olc6502::PHA()
 // Note:        Break flag is set to 1 before push
 uint8_t olc6502::PHP()
 {
-	write(0x0100 + stkp, status | B | U);
+	write(0x0100 + stkp, status | D | B);
 	SetFlag(B, 0);
 	SetFlag(U, 0);
 	stkp--;
