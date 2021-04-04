@@ -51,7 +51,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019
+	David Barr, aka javidx9, Â©OneLoneCoder 2019
 */
 
 #include "olc2C02.h"
@@ -435,7 +435,7 @@ uint8_t olc2C02::ppuRead(uint16_t addr, bool rdonly)
 	}
 	else if (addr >= 0x0000 && addr <= 0x1FFF)
 	{
-		// If the cartridge cant map the address, have
+		// If the cartridge can't map the address, have
 		// a physical location ready here
 		data = tblPattern[(addr & 0x1000) >> 12][addr & 0x0FFF];
 	}
@@ -734,7 +734,7 @@ void olc2C02::clock()
 		}
 	};
 
-	// All but 1 of the secanlines is visible to the user. The pre-render scanline
+	// All but 1 of the scanlines is visible to the user. The pre-render scanline
 	// at -1, is used to configure the "shifters" for the first visible scanline, 0.
 	if (scanline >= -1 && scanline < 240)
 	{		
