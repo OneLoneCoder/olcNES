@@ -51,7 +51,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019
+	David Barr, aka javidx9, Â©OneLoneCoder 2019
 */
 
 #include "olc2C02.h"
@@ -955,8 +955,8 @@ void olc2C02::clock()
 			// If the control register tells us to emit a NMI when
 			// entering vertical blanking period, do it! The CPU
 			// will be informed that rendering is complete so it can
-			// perform operations with the PPU knowing it wont
-			// produce visible artefacts
+			// perform operations with the PPU knowing it won't
+			// produce visible artifacts
 			if (control.enable_nmi) 
 				nmi = true;
 		}
