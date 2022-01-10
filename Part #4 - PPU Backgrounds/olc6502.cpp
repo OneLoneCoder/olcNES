@@ -68,7 +68,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2019
 */
 
 #include "olc6502.h"
@@ -208,9 +208,12 @@ void olc6502::irq()
 		// Then Push the status register to the stack
 		SetFlag(B, 0);
 		SetFlag(U, 1);
-		SetFlag(I, 1);
 		write(0x0100 + stkp, status);
 		stkp--;
+
+		// After writing to the stack, set the Interupt flag to 1
+		// to prevent other interrupts
+		SetFlag(I, 1);
 
 		// Read new program counter location from fixed address
 		addr_abs = 0xFFFE;
@@ -236,9 +239,12 @@ void olc6502::nmi()
 
 	SetFlag(B, 0);
 	SetFlag(U, 1);
-	SetFlag(I, 1);
 	write(0x0100 + stkp, status);
 	stkp--;
+
+	// After writing to the stack, set the Interupt flag to 1
+	// to prevent other interrupts
+	SetFlag(I, 1);
 
 	addr_abs = 0xFFFA;
 	uint16_t lo = read(addr_abs + 0);
@@ -894,7 +900,6 @@ uint8_t olc6502::BRK()
 {
 	pc++;
 	
-	SetFlag(I, 1);
 	write(0x0100 + stkp, (pc >> 8) & 0x00FF);
 	stkp--;
 	write(0x0100 + stkp, pc & 0x00FF);
@@ -904,6 +909,10 @@ uint8_t olc6502::BRK()
 	write(0x0100 + stkp, status);
 	stkp--;
 	SetFlag(B, 0);
+
+	// After writing to the stack, set the Interupt flag to 1
+	// to prevent other interrupts
+	SetFlag(I, 1);
 
 	pc = (uint16_t)read(0xFFFE) | ((uint16_t)read(0xFFFF) << 8);
 	return 0;
