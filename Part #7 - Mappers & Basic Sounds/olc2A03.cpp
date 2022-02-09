@@ -145,6 +145,19 @@ void olc2A03::cpuWrite(uint16_t addr, uint8_t data)
 		break;
 
 	case 0x4008:
+		triangle_lc.counter = (data & 0x7F);
+		triangle_halt = (data & 0x80);
+		break;
+
+	case 0x400A:
+		triangle_seq.reload = (triangle_seq.reload & 0xFF00) | data;
+		break;
+
+	case 0x400B:
+		triangle_seq.reload = (uint16_t)((data & 0x07)) << 8 | (triangle_seq.reload & 0x00FF);
+		triangle_seq.timer = triangle_seq.reload;
+		// TODO: length counter + linear counter
+		//triangle_lc.additional_counter = (data & 0xF8) >> 3;
 		break;
 
 	case 0x400C:
@@ -179,6 +192,7 @@ void olc2A03::cpuWrite(uint16_t addr, uint8_t data)
 		pulse1_enable = data & 0x01;
 		pulse2_enable = data & 0x02;
 		noise_enable = data & 0x04;
+		triangle_enable = data & 0x08;
 		break;
 
 	case 0x400F:
@@ -264,6 +278,7 @@ void olc2A03::clock()
 			pulse1_lc.clock(pulse1_enable, pulse1_halt);
 			pulse2_lc.clock(pulse2_enable, pulse2_halt);
 			noise_lc.clock(noise_enable, noise_halt);
+			triangle_lc.clock(triangle_enable, triangle_halt);
 			pulse1_sweep.clock(pulse1_seq.reload, 0);
 			pulse2_sweep.clock(pulse2_seq.reload, 1);
 		}
@@ -326,9 +341,33 @@ void olc2A03::clock()
 			noise_output = (double)noise_seq.output * ((double)(noise_env.output-1) / 16.0);
 		}
 
+		{
+			// Update triangle Channel ================================
+			triangle_seq.clock(triangle_enable, [](uint32_t& s)
+				{
+					// Shift right by 1 bit, wrapping around
+					s = ((s & 0x0001) << 7) | ((s & 0x00FE) >> 1);
+				});
+
+		}
+		//	else
+		{
+			triangle_osc.frequency = 1789773.0 / (32.0 * (double)(triangle_seq.reload + 1));
+			triangle_osc.amplitude = (double)1.0;
+			triangle_sample = triangle_osc.sample(dGlobalTime);
+
+			if (triangle_lc.counter > 0 && triangle_seq.timer >= 8)
+				triangle_output += (triangle_sample - triangle_output) * 0.5;
+			else
+				triangle_output = 0;
+		}
+
+
+
 		if (!pulse1_enable) pulse1_output = 0;
 		if (!pulse2_enable) pulse2_output = 0;
 		if (!noise_enable) noise_output = 0;
+		if (!triangle_enable) triangle_output = 0;
 
 	}
 
@@ -339,6 +378,7 @@ void olc2A03::clock()
 	pulse1_visual = (pulse1_enable && pulse1_env.output > 1 && !pulse1_sweep.mute) ? pulse1_seq.reload : 2047;
 	pulse2_visual = (pulse2_enable && pulse2_env.output > 1 && !pulse2_sweep.mute) ? pulse2_seq.reload : 2047;
 	noise_visual = (noise_enable && noise_env.output > 1) ? noise_seq.reload : 2047;
+	triangle_visual = (triangle_enable) ? triangle_seq.reload : 2047;
 
 	clock_counter++;
 }
@@ -352,9 +392,12 @@ double olc2A03::GetOutputSample()
 	}
 	else
 	{
+		//return 
+		//	((1.0 * triangle_output) - 0.5) * 0.2;
 		return ((1.0 * pulse1_output) - 0.8) * 0.1 +
 			((1.0 * pulse2_output) - 0.8) * 0.1 +
-			((2.0 * (noise_output - 0.5))) * 0.1;
+			((2.0 * (noise_output - 0.5))) * 0.1 +
+			((1.0 * triangle_output) - 0.8) * 0.1;
 	}
 }
 

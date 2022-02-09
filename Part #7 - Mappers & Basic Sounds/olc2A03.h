@@ -238,6 +238,32 @@ private:
 		}
 	};
 
+	struct osctriangle
+	{
+		double frequency = 0;
+		double amplitude = 1;
+		double pi = 3.14159;
+		//double harmonics = 20;
+
+		double sample(double t)
+		{
+			double a = 0;
+			double b = 0;
+
+			auto approxsin = [](float t)
+			{
+				float j = t * 0.15915;
+				j = j - (int)j;
+				return 20.785 * j * (j - 0.5) * (j - 1.0f);
+			};
+
+			a = approxsin(2 * pi * frequency * t);
+			b = approxsin(2 * pi * frequency * t * 3) / 9 - approxsin(2 * pi * frequency * t * 5) / 25 + approxsin(2 * pi * frequency * t * 7) / 49;
+
+			return (2.0 * amplitude / pi) * (a - b);
+		}
+	};
+
 	struct sweeper
 	{
 		bool enabled = false;
@@ -327,6 +353,14 @@ private:
 	double noise_sample = 0;
 	double noise_output = 0;
 
+	// Triangle Wave Channel
+	bool triangle_enable = false;
+	bool triangle_halt = false;
+	double triangle_sample = 0.0;
+	double triangle_output = 0.0;
+	sequencer triangle_seq;
+	osctriangle triangle_osc;
+	lengthcounter triangle_lc;
 
 public:
 	uint16_t pulse1_visual = 0;
