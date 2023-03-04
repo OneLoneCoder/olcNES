@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33110.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NES_VS_PROJECT", "NES_VS_PROJECT.vcxproj", "{53F99EA8-11A7-4C64-A708-0E5D8E7F5BAA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{53F99EA8-11A7-4C64-A708-0E5D8E7F5BAA}.Debug|x64.ActiveCfg = Debug|x64
+		{53F99EA8-11A7-4C64-A708-0E5D8E7F5BAA}.Debug|x64.Build.0 = Debug|x64
+		{53F99EA8-11A7-4C64-A708-0E5D8E7F5BAA}.Debug|x86.ActiveCfg = Debug|Win32
+		{53F99EA8-11A7-4C64-A708-0E5D8E7F5BAA}.Debug|x86.Build.0 = Debug|Win32
+		{53F99EA8-11A7-4C64-A708-0E5D8E7F5BAA}.Release|x64.ActiveCfg = Release|x64
+		{53F99EA8-11A7-4C64-A708-0E5D8E7F5BAA}.Release|x64.Build.0 = Release|x64
+		{53F99EA8-11A7-4C64-A708-0E5D8E7F5BAA}.Release|x86.ActiveCfg = Release|Win32
+		{53F99EA8-11A7-4C64-A708-0E5D8E7F5BAA}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8F04E584-5FAF-4E00-B252-A7BDA1489E90}
+	EndGlobalSection
+EndGlobal

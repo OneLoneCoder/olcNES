@@ -126,17 +126,27 @@ olc2C02::olc2C02()
 	palScreen[0x3E] = olc::Pixel(0, 0, 0);
 	palScreen[0x3F] = olc::Pixel(0, 0, 0);
 
+	sprScreen = new olc::Sprite(256, 240);
+	sprNameTable[0] = new olc::Sprite(256, 240);
+	sprNameTable[1] = new olc::Sprite(256, 240);
+	sprPatternTable[0] = new olc::Sprite(128, 128);
+	sprPatternTable[1] = new olc::Sprite(128, 128);
 }
 
 
 olc2C02::~olc2C02()
 {
+	delete sprScreen;
+	delete sprNameTable[0];
+	delete sprNameTable[1];
+	delete sprPatternTable[0];
+	delete sprPatternTable[1];
 }
 
 olc::Sprite& olc2C02::GetScreen()
 {
 	// Simply returns the current sprite holding the rendered screen
-	return sprScreen;
+	return *sprScreen;
 }
 
 
@@ -215,7 +225,7 @@ olc::Sprite& olc2C02::GetPatternTable(uint8_t i, uint8_t palette)
 					// Now we know the location and NES pixel value for a specific location
 					// in the pattern table, we can translate that to a screen colour, and an
 					// (x,y) location in the sprite
-					sprPatternTable[i].SetPixel
+					sprPatternTable[i]->SetPixel
 					(
 						nTileX * 8 + (7 - col), // Because we are using the lsb of the row word first
 												// we are effectively reading the row from right
@@ -229,7 +239,7 @@ olc::Sprite& olc2C02::GetPatternTable(uint8_t i, uint8_t palette)
 	}
 
 	// Finally return the updated sprite representing the pattern table
-	return sprPatternTable[i];
+	return *sprPatternTable[i];
 }
 
 
@@ -250,7 +260,7 @@ olc::Pixel& olc2C02::GetColourFromPaletteRam(uint8_t palette, uint8_t pixel)
 olc::Sprite& olc2C02::GetNameTable(uint8_t i)
 {
 	// As of now unused, but a placeholder for nametable visualisation in teh future
-	return sprNameTable[i];
+	return *sprNameTable[i];
 }
 
 
@@ -1000,7 +1010,7 @@ void olc2C02::clock()
 	// Now we have a final pixel colour, and a palette for this cycle
 	// of the current scanline. Let's at long last, draw that ^&%*er :P
 
-	sprScreen.SetPixel(cycle - 1, scanline, GetColourFromPaletteRam(bg_palette, bg_pixel));
+	sprScreen->SetPixel(cycle - 1, scanline, GetColourFromPaletteRam(bg_palette, bg_pixel));
 
 	// Fake some noise for now
 	//sprScreen.SetPixel(cycle - 1, scanline, palScreen[(rand() % 2) ? 0x3F : 0x30]);

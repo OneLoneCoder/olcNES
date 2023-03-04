@@ -199,7 +199,7 @@ private:
 	bool OnUserCreate() override
 	{
 		// Load the cartridge
-		cart = std::make_shared<Cartridge>("roms/smb3.nes");
+		cart = std::make_shared<Cartridge>("../nestest.nes");
 		
 		if (!cart->ImageValid())
 			return false;
