@@ -126,26 +126,36 @@ olc2C02::olc2C02()
 	palScreen[0x3E] = olc::Pixel(0, 0, 0);
 	palScreen[0x3F] = olc::Pixel(0, 0, 0);
 
+	sprScreen = new olc::Sprite(256, 240);
+	sprNameTable[0] = new olc::Sprite(256, 240);
+	sprNameTable[1] = new olc::Sprite(256, 240);
+	sprPatternTable[0] = new olc::Sprite(128, 128);
+	sprPatternTable[1] = new olc::Sprite(128, 128);
 }
 
 
 olc2C02::~olc2C02()
 {
+	delete sprScreen;
+	delete sprNameTable[0];
+	delete sprNameTable[1];
+	delete sprPatternTable[0];
+	delete sprPatternTable[1];
 }
 
 olc::Sprite& olc2C02::GetScreen()
 {
-	return sprScreen;
+	return *sprScreen;
 }
 
 olc::Sprite & olc2C02::GetNameTable(uint8_t i)
 {
-	return sprNameTable[i];
+	return *sprNameTable[i];
 }
 
 olc::Sprite & olc2C02::GetPatternTable(uint8_t i)
 {
-	return sprPatternTable[i];
+	return *sprPatternTable[i];
 }
 
 uint8_t olc2C02::cpuRead(uint16_t addr, bool rdonly)
@@ -230,7 +240,7 @@ void olc2C02::clock()
 {
 
 	// Fake some noise for now
-	sprScreen.SetPixel(cycle - 1, scanline, palScreen[(rand() % 2) ? 0x3F : 0x30]);
+	sprScreen->SetPixel(cycle - 1, scanline, palScreen[(rand() % 2) ? 0x3F : 0x30]);
 
 	// Advance renderer - it never stops, it's relentless
 	cycle++;
